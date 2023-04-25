@@ -6,22 +6,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Dzień Dobry</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-     crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
     
-     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-     crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+     
 </head>
 <body>
     <div id="map">
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+        
         <script>
         var map = L.map('map').setView([52.185763, 21.572510],16);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+
+        L.Control.geocoder().addTo(map);
+        if (!navigator.geolocation) {
+            console.log("Your browser doesn't support geolocation feature!")
+        } else {
+            setInterval(() => {
+                navigator.geolocation.getCurrentPosition(getPosition)
+            }, 5000);
+        };
+        var marker, circle1, lat, long, accuracy;
+
+        function getPosition(position) {
+            // console.log(position)
+            lat = position.coords.latitude
+            long = position.coords.longitude
+            accuracy = position.coords.accuracy
+
+            if (marker) {
+                map.removeLayer(marker)
+            }
+
+            if (circle1) {
+                map.removeLayer(circle1)
+            }
+
+            marker = L.marker([lat, long])
+            .bindPopup('Moja lokalizacja.')
+            .openPopup();
+            circle1 = L.circle([lat, long], { radius: 30 })
+
+            var featureGroup = L.featureGroup([marker, circle1]).addTo(map)
+
+            map.fitBounds(featureGroup.getBounds())
+
+            console.log("Twoja lokalizacja to: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
+        }
         
         L.marker([52.186598, 21.571534]).addTo(map)
             .bindPopup('Moja Szkoła.')
