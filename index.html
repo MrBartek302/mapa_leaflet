@@ -36,7 +36,7 @@
                 navigator.geolocation.getCurrentPosition(getPosition)
             }, 5000);
         };
-        var marker, circle1, lat, long, accuracy;
+        var marker1, circle1, lat, long, accuracy;
 
         function getPosition(position) {
             // console.log(position)
@@ -44,39 +44,41 @@
             long = position.coords.longitude
             accuracy = position.coords.accuracy
 
-            if (marker) {
-                map.removeLayer(marker)
+            if (marker1) {
+                map.removeLayer(marker1)
             }
 
             if (circle1) {
                 map.removeLayer(circle1)
             }
 
-            marker = L.marker([lat, long])
+            marker1 = L.marker([lat, long])
             .bindPopup('Moja lokalizacja.')
             .openPopup();
             circle1 = L.circle([lat, long], { radius: 30 })
 
-            var featureGroup = L.featureGroup([marker, circle1]).addTo(map)
-
+            var featureGroup = L.featureGroup([marker1, circle1]).addTo(map)
             map.fitBounds(featureGroup.getBounds())
 
-            console.log("Twoja lokalizacja to: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
+            console.log("Twoja lokalizacja to: Szerokość: " + lat + " Długość: " + long + " Accuracy: " + accuracy)
         }
-        
-        L.marker([52.186598, 21.571534]).addTo(map)
+            var marker, circle
+            marker = L.marker([52.186598, 21.571534])
             .bindPopup('Moja Szkoła.')
-            .openPopup();
+            .openPopup();            
 
-            var circle = L.circle([52.185707, 21.572745, 9], {
-               color: 'red',
-               fillColor: '#f03',
-               fillOpacity: 0.5,
-               radius: 200
-                }).addTo(map);
+            circle = L.circle([52.185707, 21.572745, 9], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 200
+            })
                 
                 circle.bindPopup("Cały obszar szkoły.");
                 var popup = L.popup();
+
+                var featureGroup1 = L.featureGroup([marker, circle]).addTo(map)
+                map.fitBounds(featureGroup1.getBounds())
 
         //function onMapClick(e) {
         //    popup
