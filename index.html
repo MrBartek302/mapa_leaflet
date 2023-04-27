@@ -6,65 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Dzień Dobry</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        crossorigin="" />
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+        <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+ integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+ crossorigin=""></script>
      
 </head>
 <body>
     <div id="map">
-        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-        crossorigin=""></script>
-
-        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+        
         
         <script>
         var map = L.map('map').setView([52.185763, 21.572510],16);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map); 
+        
+        let marker1, circle1, zoomed;
 
-        L.Control.geocoder().addTo(map);
-        if (!navigator.geolocation) {
-            console.log("Your browser doesn't support geolocation feature!")
-        } else {
-            setInterval(() => {
-                navigator.geolocation.getCurrentPosition(getPosition)
-            }, 5000);
-        };
-        var marker1, circle1, lat, long, accuracy;
+navigator.geolocation.watchPosition(success, error);
 
-        function getPosition(position) {
-            //console.log(position)
-            lat = position.coords.latitude
-            long = position.coords.longitude
-            accuracy = position.coords.accuracy
+function success(pos) {
 
-            if (marker1) {
-                map.removeLayer(marker1)
-            }
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    const accuracy = pos.coords.accuracy;
 
-            if (circle1) {
-                map.removeLayer(circle1)
-            }
+    if (marker1) {
+        map.removeLayer(marker1);
+        map.removeLayer(circle1);
+    }
+    // Removes any existing marker and circule (new ones about to be set)
 
-            marker1 = L.marker([lat, long])
-            .bindPopup('Moja lokalizacja.')
-            .openPopup();
-            
-            circle1 = L.circle([lat, long], { radius: 30 })
-            .bindPopup('Obszar mojej lokalizacji.')
-            .openPopup();
+    marker1 = L.marker([lat, lng]).addTo(map);
+    circle1 = L.circle([lat, lng], { radius: 20 }).addTo(map);
+    // Adds marker to the map and a circle for accuracy
 
-            var featureGroup = L.featureGroup([marker1, circle1]).addTo(map)
-            map.fitBounds(featureGroup.getBounds())
+    if (!zoomed) {
+        zoomed = map.fitBounds(circle1.getBounds()); 
+    }
+    // Set zoom to boundaries of accuracy circle
 
-            console.log("Twoja lokalizacja to: Szerokość: " + lat + " Długość: " + long + " Accuracy: " + accuracy)
-        }
+    map.setView([lat, lng]);
+    // Set map focus to current user position
+
+}
+
+function error(err) {
+
+    if (err.code === 1) {
+        alert("Please allow geolocation access");
+    } else {
+        alert("Cannot get current location");
+    }
+
+}
             
             var marker = L.marker([52.186598, 21.571534]).addTo(map)
             .bindPopup('Moja Szkoła.')
