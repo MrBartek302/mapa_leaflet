@@ -16,10 +16,13 @@
      
 </head>
 <body>
+    <div id="gora">
+    <button onclick="lokalizacja()">Sprawdź lokalizację!</button>
+    </div>
+    
+    
     <div id="map">
-        
-        
-        <script>
+        <script>            
         var map = L.map('map').setView([52.185763, 21.572510],16);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -29,15 +32,22 @@
         
         let marker1, circle1, zoomed;
 
-navigator.geolocation.watchPosition(success, error);
-
+function lokalizacja(){
+    navigator.geolocation.watchPosition(success, error);
+}
+var ilosc=0
 function success(pos) {
 
     const lat = pos.coords.latitude;
     const lng = pos.coords.longitude;
     const accuracy = pos.coords.accuracy;
-
-    console.log("Twoje koordynaty to: "+[lat, lng])
+    
+    if(ilosc==0){
+    const h2 = document.createElement("h2")
+    h2.innerHTML = "Latitude: "+lat+" || "+" Longitude: "+lng
+    document.getElementById("gora").appendChild(h2)
+    ilosc=1
+    }
 
     if (marker1) {
         map.removeLayer(marker1);
@@ -45,7 +55,9 @@ function success(pos) {
     }
     // Removes any existing marker and circule (new ones about to be set)
 
-    marker1 = L.marker([lat, lng]).addTo(map);
+    marker1 = L.marker([lat, lng]).addTo(map)
+    .bindPopup('Moja lokalizacja.')
+    .openPopup(); 
     circle1 = L.circle([lat, lng], { radius: 20 }).addTo(map);
     // Adds marker to the map and a circle for accuracy
 
