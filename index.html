@@ -37,6 +37,8 @@ function success(pos) {
     const lng = pos.coords.longitude;
     const accuracy = pos.coords.accuracy;
 
+    console.log("Twoje koordynaty to: "+[lat, lng])
+
     if (marker1) {
         map.removeLayer(marker1);
         map.removeLayer(circle1);
