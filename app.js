@@ -70,7 +70,7 @@ alert("Cannot get current location");
     var popup = L.popup();
 
 function onMapClick(e) {
-    console.log(marker)
+    //console.log(marker)
    var marker2 = L.marker([e.latlng.lat, e.latlng.lng ]).addTo(map)
    var tab = [[marker._latlng.lat, marker._latlng.lng], [e.latlng.lat, e.latlng.lng]]
    var linia = L.polyline(tab).addTo(map)
@@ -93,9 +93,8 @@ map.on('click', onMapClick);
 for(var i=0; i<=woje.features.length-1; i++){
    var wojew =  L.geoJSON(woje.features[i]).addTo(map);
 }
-console.log(woje.features)
-map.on('click', wyswietl)
+wojew.on('click', wyswietl)
 
-function wyswietl(){
-    console.log(woje.features.nazwa)
+function wyswietl(e){
+    console.log(e.layer.feature.properties.nazwa)
 }
