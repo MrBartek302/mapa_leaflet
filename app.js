@@ -69,10 +69,22 @@ alert("Cannot get current location");
     circle.bindPopup("Cały obszar szkoły.");
     var popup = L.popup();
 
-//function onMapClick(e) {
-//    popup
-//        .setLatLng(e.latlng)
-//        .setContent("Kiknąłeś na: " + e.latlng.toString())
-//        .openOn(map);
-//}
-//map.on('click', onMapClick);
+function onMapClick(e) {
+    console.log(marker)
+   var marker2 = L.marker([e.latlng.lat, e.latlng.lng ]).addTo(map)
+   var tab = [[marker._latlng.lat, marker._latlng.lng], [e.latlng.lat, e.latlng.lng]]
+   var linia = L.polyline(tab).addTo(map)
+   var latlngs = linia.getLatLngs();
+   var lengthInMeters = 0;
+   for(var i=0; i<latlngs.length - 1; i++){
+    var latlng1 = latlngs[i];
+    var latlng2 = latlngs[i+1];
+    var distance = latlng1.distanceTo(latlng2);
+    lengthInMeters += distance;
+   }
+
+   var lengthInKilometers = lengthInMeters/1000;
+   var format = lengthInKilometers.toFixed(3)
+   console.log("Dystans pomiędzy punktami to: "+ format + " kilometrów");
+}
+map.on('click', onMapClick);
