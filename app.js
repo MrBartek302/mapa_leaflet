@@ -1,4 +1,4 @@
-var map = L.map('map').setView([52.185763, 21.572510],16);
+var map = L.map('map').setView([52.185763, 21.572510], 8);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -74,6 +74,7 @@ function onMapClick(e) {
    var marker2 = L.marker([e.latlng.lat, e.latlng.lng ]).addTo(map)
    var tab = [[marker._latlng.lat, marker._latlng.lng], [e.latlng.lat, e.latlng.lng]]
    var linia = L.polyline(tab).addTo(map)
+  
    var latlngs = linia.getLatLngs();
    var lengthInMeters = 0;
    for(var i=0; i<latlngs.length - 1; i++){
@@ -85,6 +86,16 @@ function onMapClick(e) {
 
    var lengthInKilometers = lengthInMeters/1000;
    var format = lengthInKilometers.toFixed(3)
-   console.log("Dystans pomiędzy punktami to: "+ format + " kilometrów");
+   linia.bindPopup("Dystans to: "+format+" kilometrów.").openPopup()
 }
 map.on('click', onMapClick);
+
+for(var i=0; i<=woje.features.length-1; i++){
+   var wojew =  L.geoJSON(woje.features[i]).addTo(map);
+}
+console.log(woje.features)
+map.on('click', wyswietl)
+
+function wyswietl(){
+    console.log(woje.features.nazwa)
+}
