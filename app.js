@@ -112,7 +112,7 @@ for (var i = 0; i <= woje.features.length - 1; i++) {
   var wojew = L.geoJSON(woje.features[i]).addTo(map);
   wojew.nazwa = woje.features[i].properties.nazwa;
   warstwy.push(wojew); // Dodaj warstwę do tablicy warstwy
-
+  
   wojew.on('click', sprawdzwoj);
   wojew.on('click', wyswietl);
   //wojew.on('mouseover', wyswietlk);
@@ -164,17 +164,17 @@ function loslos1() {
   nazwy.splice(indeks, 1);
 }
 
-var wybrany = 0
+//var wybrany = 0
 function sprawdzwoj(e) {
   var nazwaWojewodztwa = this.nazwa;
 
-  if (wybrany==0) {
+  //if (wybrany==0) {
     if (nazwaWojewodztwa === document.getElementById('napis').innerHTML) {
       this.setStyle({
         fillColor: 'green',
         fillOpacity: 0.5,
       });
-      wybrany = 1; 
+      //wybrany = 1; 
     } else {
       this.setStyle({
         fillColor: 'red',
@@ -182,7 +182,7 @@ function sprawdzwoj(e) {
       });
     }
   }
-}
+//}
 
 //function zmienKolorNaCzerwono(nazwaWojewodztwa) {
 //  for (var i = 0; i < warstwy.length; i++) {
