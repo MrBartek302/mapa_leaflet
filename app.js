@@ -145,12 +145,25 @@ for (var i = 0; i <= woje.features.length - 1; i++) {
 }
 console.log(nazwy);
 
+function loslos1(){
+    //losowy numerek z mojej tablicy
+    var indeks = Math.floor(Math.random()*nazwy.length)
+    //pod zmienną item mamy nazwę z randomowo wylosowanym numerkiem(indexem)
+    var item = nazwy[indeks]
 
-    var maxIndex = woje.features.length - 1;
-    var losowyIndex = Math.floor(Math.random() * (maxIndex + 1));
-    var losowaNazwa = woje.features[losowyIndex].properties.nazwa;
-    console.log(losowaNazwa);
-  
+    if(nazwy.length>0){
+    document.getElementById("napis").innerHTML = item
+    } else{
+        document.getElementById("napis").innerHTML = "Wylosowano Wszystko!"
+    }
+    nazwy.splice(indeks, 1)
+
+    for(var o = 0; o <= woje.features.length - 1; i++){
+    if(item==woje.features[o].properties.nazwa){
+        console.log(woje.features[o].id)
+    }
+  }
+}
   
 
   
