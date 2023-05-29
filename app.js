@@ -106,37 +106,36 @@ function onMapClick(e) {
 }
 map.on('click', onMapClick);
 
+var warstwy = [];
+
 for (var i = 0; i <= woje.features.length - 1; i++) {
-    var wojew = L.geoJSON(woje.features[i]).addTo(map);
-  
-    wojew.on('click', wyswietl);
-    wojew.on('mouseover', wyswietlk);
-    wojew.on('mouseout', usunPodswietlenie);
-  
-    // Dodane właściwości stylu dla województwa
-    wojew.setStyle({
-      fillColor: '#4d4dff', 
-      fillOpacity: 0.5, 
-    });
-  }
-  
-  function wyswietl(e) {
-    console.log(e.layer.feature.properties.nazwa);
-  }
-  
-  function wyswietlk(e) {
+  var wojew = L.geoJSON(woje.features[i]).addTo(map);
+  wojew.nazwa = woje.features[i].properties.nazwa;
+  warstwy.push(wojew); // Dodaj warstwę do tablicy warstwy
+
+  wojew.on('click', sprawdzPodswietlenie);
+
+  // Dodane właściwości stylu dla województwa
+  wojew.setStyle({
+    fillColor: '#4d4dff',
+    fillOpacity: 0.5,
+  });
+}
+
+function sprawdzPodswietlenie(e) {
+  var nazwaWojewodztwa = this.nazwa;
+  if (nazwaWojewodztwa === document.getElementById('napis').innerHTML) {
     this.setStyle({
-      fillColor: 'red', 
-      fillOpacity: 0.5, 
+      fillColor: 'green',
+      fillOpacity: 0.5,
     });
-  }
-  
-  function usunPodswietlenie(e) {
+  } else {
     this.setStyle({
-      fillColor: '#4d4dff', 
-      fillOpacity: 0.5, 
+      fillColor: 'red',
+      fillOpacity: 0.5,
     });
   }
+}
 
 var nazwy = [];
 for (var i = 0; i <= woje.features.length - 1; i++) {
@@ -145,26 +144,36 @@ for (var i = 0; i <= woje.features.length - 1; i++) {
 }
 console.log(nazwy);
 
-function loslos1(){
-    //losowy numerek z mojej tablicy
-    var indeks = Math.floor(Math.random()*nazwy.length)
-    //pod zmienną item mamy nazwę z randomowo wylosowanym numerkiem(indexem)
-    var item = nazwy[indeks]
+function loslos1() {
+  var indeks = Math.floor(Math.random() * nazwy.length);
+  var item = nazwy[indeks];
 
-    if(nazwy.length>0){
-    document.getElementById("napis").innerHTML = item
-    } else{
-        document.getElementById("napis").innerHTML = "Wylosowano Wszystko!"
-    }
-    nazwy.splice(indeks, 1)
+  if (nazwy.length > 0) {
+    document.getElementById('napis').innerHTML = item;
+  } else {
+    document.getElementById('napis').innerHTML = 'Wylosowano wszystko!';
+  }
 
-    for(var o = 0; o <= woje.features.length - 1; i++){
-    if(item==woje.features[o].properties.nazwa){
-        console.log(woje.features[o].id)
+  zmienKolorNaCzerwono(item); // Zmiana koloru wylosowanego województwa na czerwony
+  nazwy.splice(indeks, 1);
+}
+
+function zmienKolorNaCzerwono(nazwaWojewodztwa) {
+  for (var i = 0; i < warstwy.length; i++) {
+    if (warstwy[i].nazwa === nazwaWojewodztwa) {
+      warstwy[i].setStyle({
+        fillColor: 'red',
+        fillOpacity: 0.5,
+      });
+    } else {
+      warstwy[i].setStyle({
+        fillColor: '#4d4dff',
+        fillOpacity: 0.5,
+      });
     }
   }
 }
-  
+
 
   
   
