@@ -85,29 +85,29 @@ alert("Cannot get current location");
     circle.bindPopup("Cały obszar szkoły.");
     var popup = L.popup();
 
-function onMapClick(e) {
-    //console.log(marker)
-   var marker2 = L.marker([e.latlng.lat, e.latlng.lng ]).addTo(map)
-   var tab = [[marker._latlng.lat, marker._latlng.lng], [e.latlng.lat, e.latlng.lng]]
-   var linia = L.polyline(tab).addTo(map)
-  
-   var latlngs = linia.getLatLngs();
-   var lengthInMeters = 0;
-   for(var i=0; i<latlngs.length - 1; i++){
-    var latlng1 = latlngs[i];
-    var latlng2 = latlngs[i+1];
-    var distance = latlng1.distanceTo(latlng2);
-    lengthInMeters += distance;
-   }
+//function onMapClick(e) {
+//    //console.log(marker)
+//   var marker2 = L.marker([e.latlng.lat, e.latlng.lng ]).addTo(map)
+//   var tab = [[marker._latlng.lat, marker._latlng.lng], [e.latlng.lat, e.latlng.lng]]
+//   var linia = L.polyline(tab).addTo(map)
+//  
+//   var latlngs = linia.getLatLngs();
+//   var lengthInMeters = 0;
+//   for(var i=0; i<latlngs.length - 1; i++){
+//    var latlng1 = latlngs[i];
+//    var latlng2 = latlngs[i+1];
+//    var distance = latlng1.distanceTo(latlng2);
+//    lengthInMeters += distance;
+//   }
+//
+//   var lengthInKilometers = lengthInMeters/1000;
+//   var format = lengthInKilometers.toFixed(1)
+//   linia.bindPopup("Dystans to: "+format+" kilometrów.").openPopup()
+//}
+//map.on('click', onMapClick);
 
-   var lengthInKilometers = lengthInMeters/1000;
-   var format = lengthInKilometers.toFixed(1)
-   linia.bindPopup("Dystans to: "+format+" kilometrów.").openPopup()
-}
-map.on('click', onMapClick);
 
 var warstwy = [];
-
 for (var i = 0; i <= woje.features.length - 1; i++) {
   var wojew = L.geoJSON(woje.features[i]).addTo(map);
   wojew.nazwa = woje.features[i].properties.nazwa;
@@ -143,21 +143,6 @@ function wyswietl(e) {
 //  });
 //}
 
-function sprawdzwoj(e) {
-  var nazwaWojewodztwa = this.nazwa;
-  if (nazwaWojewodztwa === document.getElementById('napis').innerHTML) {
-    this.setStyle({
-      fillColor: 'green',
-      fillOpacity: 0.5,
-    });
-  } else {
-    this.setStyle({
-      fillColor: 'red',
-      fillOpacity: 0.5,
-    });
-  }
-}
-
 var nazwy = [];
 for (var i = 0; i <= woje.features.length - 1; i++) {
   var wojwoj = woje.features[i].properties.nazwa;
@@ -177,6 +162,26 @@ function loslos1() {
 
   //zmienKolorNaCzerwono(item); // Zmiana koloru wylosowanego województwa na czerwony
   nazwy.splice(indeks, 1);
+}
+
+var wybrany = 0
+function sprawdzwoj(e) {
+  var nazwaWojewodztwa = this.nazwa;
+
+  if (wybrany==0) {
+    if (nazwaWojewodztwa === document.getElementById('napis').innerHTML) {
+      this.setStyle({
+        fillColor: 'green',
+        fillOpacity: 0.5,
+      });
+      wybrany = 1; 
+    } else {
+      this.setStyle({
+        fillColor: 'red',
+        fillOpacity: 0.5,
+      });
+    }
+  }
 }
 
 //function zmienKolorNaCzerwono(nazwaWojewodztwa) {
