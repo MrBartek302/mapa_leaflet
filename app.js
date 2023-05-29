@@ -106,17 +106,35 @@ function onMapClick(e) {
 }
 map.on('click', onMapClick);
 
-for(var i=0; i<=woje.features.length-1; i++){
-   var wojew =  L.geoJSON(woje.features[i]).addTo(map);
-
-   wojew.on('click', wyswietl)
-   wojew.on('click', wyswietlk)
-}
-
-function wyswietl(e){
- console.log(e.layer.feature.properties.nazwa)
-   }
-
-function wyswietlk(e){
-    
-}
+for (var i = 0; i <= woje.features.length - 1; i++) {
+    var wojew = L.geoJSON(woje.features[i]).addTo(map);
+  
+    wojew.on('click', wyswietl);
+    wojew.on('mouseover', wyswietlk);
+    wojew.on('mouseout', usunPodswietlenie);
+  
+    // Dodane właściwości stylu dla województwa
+    wojew.setStyle({
+      fillColor: '#4d4dff', 
+      fillOpacity: 0.5, 
+    });
+  }
+  
+  function wyswietl(e) {
+    console.log(e.layer.feature.properties.nazwa);
+  }
+  
+  function wyswietlk(e) {
+    this.setStyle({
+      fillColor: 'red', 
+      fillOpacity: 0.5, 
+    });
+  }
+  
+  function usunPodswietlenie(e) {
+    this.setStyle({
+      fillColor: '#4d4dff', 
+      fillOpacity: 0.5, 
+    });
+  }
+  
