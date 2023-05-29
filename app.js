@@ -145,6 +145,12 @@ for (var i = 0; i <= woje.features.length - 1; i++) {
 }
 console.log(nazwy);
 
+
+    var maxIndex = woje.features.length - 1;
+    var losowyIndex = Math.floor(Math.random() * (maxIndex + 1));
+    var losowaNazwa = woje.features[losowyIndex].properties.nazwa;
+    console.log(losowaNazwa);
+  
   
 
   
