@@ -113,7 +113,10 @@ for (var i = 0; i <= woje.features.length - 1; i++) {
   wojew.nazwa = woje.features[i].properties.nazwa;
   warstwy.push(wojew); // Dodaj warstwę do tablicy warstwy
 
-  wojew.on('click', sprawdzPodswietlenie);
+  wojew.on('click', sprawdzwoj);
+  wojew.on('click', wyswietl);
+  //wojew.on('mouseover', wyswietlk);
+  //wojew.on('mouseout', usunPodswietlenie);
 
   // Dodane właściwości stylu dla województwa
   wojew.setStyle({
@@ -122,7 +125,25 @@ for (var i = 0; i <= woje.features.length - 1; i++) {
   });
 }
 
-function sprawdzPodswietlenie(e) {
+function wyswietl(e) {
+  console.log(e.layer.feature.properties.nazwa);
+}
+
+//function wyswietlk(e) {
+//  this.setStyle({
+//    fillColor: 'red', 
+//    fillOpacity: 0.5, 
+//  });
+//}
+//
+//function usunPodswietlenie(e) {
+//  this.setStyle({
+//    fillColor: '#4d4dff', 
+//    fillOpacity: 0.5, 
+//  });
+//}
+
+function sprawdzwoj(e) {
   var nazwaWojewodztwa = this.nazwa;
   if (nazwaWojewodztwa === document.getElementById('napis').innerHTML) {
     this.setStyle({
@@ -154,25 +175,25 @@ function loslos1() {
     document.getElementById('napis').innerHTML = 'Wylosowano wszystko!';
   }
 
-  zmienKolorNaCzerwono(item); // Zmiana koloru wylosowanego województwa na czerwony
+  //zmienKolorNaCzerwono(item); // Zmiana koloru wylosowanego województwa na czerwony
   nazwy.splice(indeks, 1);
 }
 
-function zmienKolorNaCzerwono(nazwaWojewodztwa) {
-  for (var i = 0; i < warstwy.length; i++) {
-    if (warstwy[i].nazwa === nazwaWojewodztwa) {
-      warstwy[i].setStyle({
-        fillColor: 'red',
-        fillOpacity: 0.5,
-      });
-    } else {
-      warstwy[i].setStyle({
-        fillColor: '#4d4dff',
-        fillOpacity: 0.5,
-      });
-    }
-  }
-}
+//function zmienKolorNaCzerwono(nazwaWojewodztwa) {
+//  for (var i = 0; i < warstwy.length; i++) {
+//    if (warstwy[i].nazwa === nazwaWojewodztwa) {
+//      warstwy[i].setStyle({
+//        fillColor: 'green',
+//        fillOpacity: 0.5,
+//      });
+//    } else {
+//      warstwy[i].setStyle({
+//        fillColor: '#4d4dff',
+//        fillOpacity: 0.5,
+//      });
+//    }
+//  }
+//}
 
 
   
