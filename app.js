@@ -137,4 +137,15 @@ for (var i = 0; i <= woje.features.length - 1; i++) {
       fillOpacity: 0.5, 
     });
   }
+
+var nazwy = [];
+for (var i = 0; i <= woje.features.length - 1; i++) {
+  var wojwoj = woje.features[i].properties.nazwa;
+  nazwy.push(wojwoj);
+}
+console.log(nazwy);
+
+  
+
+  
   
