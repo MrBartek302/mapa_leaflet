@@ -108,10 +108,15 @@ map.on('click', onMapClick);
 
 for(var i=0; i<=woje.features.length-1; i++){
    var wojew =  L.geoJSON(woje.features[i]).addTo(map);
-}
-wojew.on('click', wyswietl)
 
-function wyswietl(){
+   wojew.on('click', wyswietl)
+   wojew.on('click', wyswietlk)
+}
+
+function wyswietl(e){
+ console.log(e.layer.feature.properties.nazwa)
+   }
+
+function wyswietlk(e){
     
-    console.log()
 }
