@@ -156,6 +156,14 @@ function loslos1() {
 
   if (nazwy.length > 0) {
     document.getElementById('napis').innerHTML = item;
+
+    for(var i=0; i<warstwy.length; i++){
+      warstwy[i].setStyle({
+        fillColor: '#4d4dff',
+        fillOpacity: 0.5,
+      })
+    }
+
   } else {
     document.getElementById('napis').innerHTML = 'Wylosowano wszystko!';
   }
