@@ -206,7 +206,3 @@ function sprawdzwoj(e) {
 //    }
 //  }
 //}
-
-
-  
-  
